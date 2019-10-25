@@ -5,9 +5,12 @@ from os import listdir
 from os.path import isfile, join
 from pprint import pprint
 
-main_fields = ['twitter', 'facebook', 'en.wikipedia.org', 'wikidata', 'instagram', 'linkedin', 'pinterest', 'youtube',
-               'google', 'twittersite', 'twittercreator', 'twitterurl', 'facebookpublisher', 'facebookauthor','fetchedNumbers','about','contact',
-               'telephone', 'legalName', 'stype', 'email', 'email1', 'address', 'mailto0', 'mailto1', 'mailto2', 'mailto3', 'mailto4', 'mailto5', 'mailto6', 'mailto7', 'mailto8', 'mailto9']
+# main_fields = ['twitter', 'facebook', 'en.wikipedia.org', 'wikidata', 'instagram', 'linkedin', 'pinterest', 'youtube',
+#                'google', 'twittersite', 'twittercreator', 'twitterurl', 'facebookpublisher', 'facebookauthor','fetchedNumbers','about','contact',
+#                'telephone', 'legalName', 'stype', 'email', 'email1', 'address', 'mailto0', 'mailto1', 'mailto2', 'mailto3', 'mailto4', 'mailto5', 'mailto6', 'mailto7', 'mailto8', 'mailto9']
+
+
+main_fields = ['twitter_url', 'twitter_url_nonname_match']
 
 extra_fields = []
 json_path = 'json'
@@ -139,6 +142,21 @@ def json_to_csv(file_name):
         if 'stype' in result:
             if type(result['stype']) is not list:
                 main_fields_list.append({'url': url, 'key': 'stype', 'value': result['stype']})
+
+        if 'twitter_url' in result:
+            if type(result['twitter_url']) is list:
+                if len(result['twitter_url']) > 0:
+                    main_fields_list.append({'url': url, 'key': 'twitter_url', 'value': ",".join(result['twitter_url'])})
+                else:
+                    main_fields_list.append({'url': url, 'key': 'twitter_url', 'value': "--------"})
+
+
+        if 'twitter_url_nonname_match' in result:
+            if type(result['twitter_url_nonname_match']) is list:
+                if len(result['twitter_url']) > 0:
+                    main_fields_list.append({'url': url, 'key': 'twitter_url_nonname_match', 'value': ",".join(result['twitter_url_nonname_match'])})
+                else:
+                    main_fields_list.append({'url': url, 'key': 'twitter_url_nonname_match', 'value': "--------"})
 
 def main():
     extra_field = [];

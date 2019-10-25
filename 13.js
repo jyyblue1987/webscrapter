@@ -8,8 +8,8 @@ var EightyApp = function() {
         var $html = app.parseHtml(html, $);
         
 		var object = {};
-
-        
+		
+		
 		function findVal(object, key) {
 		    var value;
 		    Object.keys(object).some(function(k) {
@@ -58,6 +58,8 @@ var EightyApp = function() {
 		object.facebookauthor = $html.find("meta[name='article:author'], meta[name='ARTICLE:AUTHOR']").attr("content");
 		object.contact  =$html.find("a:contains('Contact'),a:contains('contact')").attr("href");
 		object.about=$html.find("a:contains('About'),a:contains('about')").attr("href");
+		
+		
 		$html.find("a[href^='mailto']").each(function(a){
 			var href = $(this).attr("href").replace("mailto:", "");
 			
@@ -77,25 +79,31 @@ var EightyApp = function() {
 		   }
 		})
 		
+		function onlyUnique(value, index, self) { 
+            return self.indexOf(value) === index;
+        }
+		
+		var list = [];
 		function getTwitterUrls(html, domainName) {
 		    var matched = html.match(/(http(?:s)?:\/\/(?:www\.)?twitter\.com)\/([a-zA-Z0-9_]+)/);
 		    if( matched == null || matched == undefined )
-		        return [];
+		        return list.length;
 		    if( matched.length < 3 )
-		        return [];
+		        return;
 		    
 		    if( matched[2].toLowerCase().includes(domainName) )
-		        return [matched[0], matched[1] + '/' + domainName];  
+		        return list.push(matched[0], matched[1] + '/' + domainName);  
 		    if( domainName.toLowerCase().includes(matched[2]) )
-		        return [matched[0], matched[1] + '/' + domainName];  
+		        return list.push(matched[0], matched[1] + '/' + domainName);  
 		    else
-		        return [];
+		        return list.length;
 		}
 		
-		var list = [];
 		
-		var list = getTwitterUrls(html, domainName, list);
-		var list = list.filter( onlyUnique );
+		getTwitterUrls(html, domainName, list);
+		list = list.filter( onlyUnique );
+		
+		object.twitter_url = list;
 	
 		function addToLinks(href) {
 			var obj = {};

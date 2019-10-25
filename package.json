@@ -1,0 +1,17 @@
+{
+  "name": "crawler",
+  "version": "1.0.0",
+  "description": "craler",
+  "main": "main.js",
+  "dependencies": {
+    "eighty-app": "^1.21.2",
+    "jquery": "^3.4.1",
+    "jsdom": "^15.2.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "mocha"
+  },
+  "author": "",
+  "license": "ISC"
+}

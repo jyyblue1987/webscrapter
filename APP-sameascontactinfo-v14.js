@@ -79,51 +79,37 @@ var EightyApp = function() {
         }
 		
 		function getTwitterUrls(html, domainName) {
-		    var matched = html.match(/(http(?:s)?:\/\/(?:www\.)?twitter\.com)\/([a-zA-Z0-9_]+)/);
-		    if( matched == null || matched == undefined )
-		        return twitter_list.length;
-		    if( matched.length < 3 )
-		        return;
+		    const regexp = RegExp(/(http(?:s)?:\/\/(?:www\.)?twitter\.com)\/([a-zA-Z0-9_]+)/, 'g');
 		    
-		    if( matched[2].toLowerCase().includes(domainName) )
-		        return twitter_list.push(matched[0], matched[1] + '/' + domainName);  
-		    if( domainName.toLowerCase().includes(matched[2]) )
-		        return twitter_list.push(matched[0], matched[1] + '/' + domainName);  
-		    else
-		        return twitter_list.length;
+		    while ((matched = regexp.exec(html)) !== null) {
+                if( matched == null || matched == undefined )
+    		        continue;
+    		    if( matched.length < 3 )
+    		        continue;
+    		    
+    		    if( matched[2].toLowerCase().includes(domainName.toLowerCase()) )
+    		        twitter_list.push(matched[0], matched[1] + '/' + domainName);  
+    		    else if( domainName.toLowerCase().includes(matched[2].toLowerCase()) )
+					twitter_list.push(matched[0], matched[1] + '/' + domainName);  
+				else
+					non_twitter_list.push(matched[0]);  	
+            }
+
+		    return matched;
 		}
 		
 		
-		getTwitterUrls(html, domainName);
+		object.matched = getTwitterUrls(html, domainName);
 		twitter_list = twitter_list.map(item => {
 		    return item.toLowerCase();
 		} );
-		twitter_list = twitter_list.filter( onlyUnique );
-		
-		object.twitter_url = twitter_list;
-		
-		function getNonTwitterUrls(html, domainName) {
-		    var matched = html.match(/(http(?:s)?:\/\/(?:www\.)?twitter\.com)\/([a-zA-Z0-9_]+)/);
-		    if( matched == null || matched == undefined )
-		        return twitter_list.length;
-		    if( matched.length < 3 )
-		        return;
-		    
-		    if( matched[2].toLowerCase().includes(domainName) )
-		        return 0;
-		    if( domainName.toLowerCase().includes(matched[2]) )
-		        return 0;
-		    else
-		        return non_twitter_list.push(matched[0]);
-		}
-		
-		
-		getNonTwitterUrls(html, domainName);
+		twitter_list = twitter_list.filter( onlyUnique );		
+		object.twitter_url = twitter_list;		
+	
 		non_twitter_list = non_twitter_list.map(item => {
 		    return item.toLowerCase();
 		} );
-		non_twitter_list = non_twitter_list.filter( onlyUnique );
-		
+		non_twitter_list = non_twitter_list.filter( onlyUnique );		
 		object.twitter_url_nonname_match = non_twitter_list;
 	
 		function addToLinks(href) {

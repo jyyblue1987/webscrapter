@@ -46,6 +46,7 @@ var EightyApp = function() {
 			if (arr.length > 1) hostname = arr[l-2];
 			return hostname;
 		}
+		
         object.fetchedNumbers = $html.toString().match(/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/)
         // gets all links in the html document
         var links = [];
@@ -68,12 +69,26 @@ var EightyApp = function() {
 		})
 		var exactMatch= [];
 	    var domainName = getDomainNameOnly(url);
+	    object.domainName = domainName;
 		$html.find("a[href]:contains("+domainName+")").each(function(a){
 		   if($(this).find("href").includes("twitter"))
 		   {
 		       exactMatch.push($(this).find("href"));
 		   }
 		})
+		
+		function getTwitterUrls(html, domainName) {
+		    var matched = html.match(/http(?:s)?:\/\/(?:www\.)?twitter\.com\/([a-zA-Z0-9_]+)/);
+		    if( matched.length < 2 )
+		        return "";
+		    
+		    if( matched[1] == domainName )
+		        return matched[0];  
+		    else
+		        return "";
+		}
+		
+		object.twitter_url_list = getTwitterUrls(html, domainName);
 	
 		function addToLinks(href) {
 			var obj = {};

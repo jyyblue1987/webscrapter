@@ -10,7 +10,6 @@ var EightyApp = function() {
 		var object = {};
 		var twitter_list = [];
 		
-		
 		function findVal(object, key) {
 		    var value;
 		    Object.keys(object).some(function(k) {
@@ -70,17 +69,11 @@ var EightyApp = function() {
 			
 			object.mailtos.push(href)
 		})
-		var exactMatch= [];
+		
 	    var domainName = getDomainNameOnly(url);
 	    object.domainName = domainName;
-		$html.find("a[href]:contains("+domainName+")").each(function(a){
-		   if($(this).find("href").includes("twitter"))
-		   {
-		       exactMatch.push($(this).find("href"));
-		   }
-		})
-		
-		function onlyUnique(value, index, self) { 
+	    
+	    function onlyUnique(value, index, self) { 
             return self.indexOf(value) === index;
         }
 		
@@ -104,6 +97,8 @@ var EightyApp = function() {
 		twitter_list = twitter_list.filter( onlyUnique );
 		
 		object.twitter_url = twitter_list;
+		
+		return object;
 	
 		function addToLinks(href) {
 			var obj = {};

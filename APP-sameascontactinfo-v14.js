@@ -9,6 +9,7 @@ var EightyApp = function() {
         
 		var object = {};
 		var twitter_list = [];
+		var non_twitter_list = [];
 		
 		function findVal(object, key) {
 		    var value;
@@ -71,7 +72,7 @@ var EightyApp = function() {
 		})
 		
 	    var domainName = getDomainNameOnly(url);
-	    object.domainName = domainName;
+	    object.domainNameTerm = domainName;
 	    
 	    function onlyUnique(value, index, self) { 
             return self.indexOf(value) === index;
@@ -101,7 +102,29 @@ var EightyApp = function() {
 		
 		object.twitter_url = twitter_list;
 		
-		return object;
+		function getNonTwitterUrls(html, domainName) {
+		    var matched = html.match(/(http(?:s)?:\/\/(?:www\.)?twitter\.com)\/([a-zA-Z0-9_]+)/);
+		    if( matched == null || matched == undefined )
+		        return twitter_list.length;
+		    if( matched.length < 3 )
+		        return;
+		    
+		    if( matched[2].toLowerCase().includes(domainName) )
+		        return 0;
+		    if( domainName.toLowerCase().includes(matched[2]) )
+		        return 0;
+		    else
+		        return non_twitter_list.push(matched[0]);
+		}
+		
+		
+		getNonTwitterUrls(html, domainName);
+		non_twitter_list = non_twitter_list.map(item => {
+		    return item.toLowerCase();
+		} );
+		non_twitter_list = non_twitter_list.filter( onlyUnique );
+		
+		object.twitter_url_nonname_match = non_twitter_list;
 	
 		function addToLinks(href) {
 			var obj = {};

@@ -80,19 +80,22 @@ var EightyApp = function() {
 		function getTwitterUrls(html, domainName) {
 		    var matched = html.match(/(http(?:s)?:\/\/(?:www\.)?twitter\.com)\/([a-zA-Z0-9_]+)/);
 		    if( matched == null || matched == undefined )
-		        return "";
+		        return [];
 		    if( matched.length < 3 )
-		        return "";
+		        return [];
 		    
 		    if( matched[2].toLowerCase().includes(domainName) )
-		        return matched[1] + '/' + domainName;  
+		        return [matched[0], matched[1] + '/' + domainName];  
 		    if( domainName.toLowerCase().includes(matched[2]) )
-		        return matched[1] + '/' + domainName;        
+		        return [matched[0], matched[1] + '/' + domainName];  
 		    else
-		        return "";
+		        return [];
 		}
 		
-		object.twitter_url = getTwitterUrls(html, domainName);
+		var list = [];
+		
+		var list = getTwitterUrls(html, domainName, list);
+		var list = list.filter( onlyUnique );
 	
 		function addToLinks(href) {
 			var obj = {};

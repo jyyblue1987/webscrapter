@@ -94,6 +94,9 @@ var EightyApp = function() {
 		
 		
 		getTwitterUrls(html, domainName);
+		twitter_list = twitter_list.map(item => {
+		    return item.toLowerCase();
+		} );
 		twitter_list = twitter_list.filter( onlyUnique );
 		
 		object.twitter_url = twitter_list;

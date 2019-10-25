@@ -93,7 +93,13 @@ var EightyApp = function() {
 					twitter_list.push(matched[0], matched[1] + '/' + domainName);  
 				else
 					non_twitter_list.push(matched[0]);  	
-            }
+			}
+			
+			// url/twitter
+			if( html.toLowerCase().includes('href="/twitter"') )
+			{
+				twitter_list.push(url + "/twitter");  
+			}
 
 		    return matched;
 		}

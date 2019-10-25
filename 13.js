@@ -84,7 +84,7 @@ var EightyApp = function() {
 		    if( matched.length < 2 )
 		        return "";
 		    
-		    if( matched[1] == domainName )
+			if( matched[1].toLowerCase().includes(domainName) )
 		        return matched[0];  
 		    else
 		        return "";

@@ -79,6 +79,8 @@ var EightyApp = function() {
 		
 		function getTwitterUrls(html, domainName) {
 		    var matched = html.match(/http(?:s)?:\/\/(?:www\.)?twitter\.com\/([a-zA-Z0-9_]+)/);
+		    if( matched == null || matched == undefined )
+		        return "";
 		    if( matched.length < 2 )
 		        return "";
 		    

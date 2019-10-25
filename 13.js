@@ -8,6 +8,7 @@ var EightyApp = function() {
         var $html = app.parseHtml(html, $);
         
 		var object = {};
+		var twitter_list = [];
 		
 		
 		function findVal(object, key) {
@@ -83,27 +84,26 @@ var EightyApp = function() {
             return self.indexOf(value) === index;
         }
 		
-		var list = [];
 		function getTwitterUrls(html, domainName) {
 		    var matched = html.match(/(http(?:s)?:\/\/(?:www\.)?twitter\.com)\/([a-zA-Z0-9_]+)/);
 		    if( matched == null || matched == undefined )
-		        return list.length;
+		        return twitter_list.length;
 		    if( matched.length < 3 )
 		        return;
 		    
 		    if( matched[2].toLowerCase().includes(domainName) )
-		        return list.push(matched[0], matched[1] + '/' + domainName);  
+		        return twitter_list.push(matched[0], matched[1] + '/' + domainName);  
 		    if( domainName.toLowerCase().includes(matched[2]) )
-		        return list.push(matched[0], matched[1] + '/' + domainName);  
+		        return twitter_list.push(matched[0], matched[1] + '/' + domainName);  
 		    else
-		        return list.length;
+		        return twitter_list.length;
 		}
 		
 		
-		getTwitterUrls(html, domainName, list);
-		list = list.filter( onlyUnique );
+		getTwitterUrls(html, domainName);
+		twitter_list = twitter_list.filter( onlyUnique );
 		
-		object.twitter_url = list;
+		object.twitter_url = twitter_list;
 	
 		function addToLinks(href) {
 			var obj = {};

@@ -91,6 +91,8 @@ var EightyApp = function() {
     		        twitter_list.push(matched[0], matched[1] + '/' + domainName);  
     		    else if( domainName.toLowerCase().includes(matched[2].toLowerCase()) )
 					twitter_list.push(matched[0], matched[1] + '/' + domainName);  
+				else if( domainName.toLowerCase().includes(matched[2].toLowerCase().replace('_', '')) )
+					twitter_list.push(matched[0], matched[1] + '/' + domainName);  
 				else
 					non_twitter_list.push(matched[0]);  	
 			}

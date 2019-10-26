@@ -80,7 +80,8 @@ var EightyApp = function() {
 		
 		function getTwitterUrls(html, domainName) {
 		    const regexp = RegExp(/(http(?:s)?:\/\/(?:www\.)?twitter\.com)\/([a-zA-Z0-9_]+)/, 'g');
-		    
+			
+			var matched = {};
 		    while ((matched = regexp.exec(html)) !== null) {
                 if( matched == null || matched == undefined )
     		        continue;

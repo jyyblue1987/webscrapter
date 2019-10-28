@@ -64,6 +64,8 @@ def json_to_csv(file_name):
         if 'url' not in item or 'result' not in item:
             continue
         url = item['url']
+        if url == 'http://stjosephshealth.org' :
+            print('debug');    
         print('original',item['result'])
         # get result
         try:
@@ -153,7 +155,7 @@ def json_to_csv(file_name):
 
         if 'twitter_url_nonname_match' in result:
             if type(result['twitter_url_nonname_match']) is list:
-                if len(result['twitter_url']) > 0:
+                if len(result['twitter_url_nonname_match']) > 0:
                     main_fields_list.append({'url': url, 'key': 'twitter_url_nonname_match', 'value': ",".join(result['twitter_url_nonname_match'])})
                 else:
                     main_fields_list.append({'url': url, 'key': 'twitter_url_nonname_match', 'value': "--------"})
